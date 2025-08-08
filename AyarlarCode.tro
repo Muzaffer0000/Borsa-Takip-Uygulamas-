@@ -1,0 +1,81 @@
+var
+  AyarlarForm: TclForm;
+  AnaPnl,TemaPnl,DilPnl: TclProPanel;
+  GeriBtn,UygulaBtn: TclProButton;
+  Baslik: TclProLabel;
+  DilSecimi: TclProComboBox;
+  TemaSecimi: TclProComboBox;
+  DilLabel, TemaLabel: TclProLabel;
+
+
+
+{
+
+AyarlarForm = TclForm.Create(Self);
+AyarlarForm.SetFormBGImage('https://static3.depositphotos.com/1000635/120/i/450/depositphotos_1208368-stock-photo-white-paper-seamless-background.jpg');
+
+  // Ana Panel  \\ 
+AnaPnl = AyarlarForm.AddNewProPanel(AyarlarForm, 'AnaPnl');
+AnaPnl.Align = alClient;
+AnaPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#f0f0f0');
+AnaPnl.SetclProSettings(AnaPnl.clProSettings);
+
+  // Başlık \\
+Baslik = AyarlarForm.AddNewProLabel(AnaPnl, 'Baslik', 'AYARLAR');
+Baslik.Align = alTop;
+Baslik.Height = 40;
+Baslik.clProSettings.FontSize = 20;
+Baslik.clProSettings.FontColor = clAlphaColor.clHexToColor('#342a79');
+Baslik.SetclProSettings(Baslik.clProSettings);
+
+ // Dil seçimi paneli \\
+DilPnl = AyarlarForm.AddNewProPanel(AnaPnl, 'DilPnl');
+DilPnl.Align = alTop;
+DilPnl.Height = 70;  
+DilPnl.Margins.Bottom = 10; 
+
+DilLabel = AyarlarForm.AddNewProLabel(DilPnl, 'DilLabel', 'Dil Seçimi:');
+DilLabel.Align = alTop;
+DilLabel.Height = 30;
+DilLabel.clProSettings.FontSize = 16;
+DilLabel.SetclProSettings(DilLabel.clProSettings);
+
+DilSecimi = AyarlarForm.AddNewProComboBox(DilPnl, 'DilSecimi');
+DilSecimi.Align = alTop;
+DilSecimi.Height = 40;
+DilSecimi.Items.Add('Türkçe');
+DilSecimi.Items.Add('English');
+
+  // Tema seçimi paneli \\
+TemaPnl = AyarlarForm.AddNewProPanel(AnaPnl, 'TemaPnl');
+TemaPnl.Align = alTop;
+TemaPnl.Height = 70; 
+TemaPnl.Margins.Bottom = 10;
+
+TemaLabel = AyarlarForm.AddNewProLabel(TemaPnl, 'TemaLabel', 'Tema Seçimi:');
+TemaLabel.Align = alTop;
+TemaLabel.Height = 30;
+TemaLabel.clProSettings.FontSize = 16;
+TemaLabel.SetclProSettings(TemaLabel.clProSettings);
+
+TemaSecimi = AyarlarForm.AddNewProComboBox(TemaPnl, 'TemaSecimi');
+TemaSecimi.Align = alTop;
+TemaSecimi.Height = 40;
+TemaSecimi.Items.Add('Açık Tema');
+TemaSecimi.Items.Add('Koyu Tema');
+ 
+  // Uygula Butonu \\
+UygulaBtn = AyarlarForm.AddNewProButton(AnaPnl, 'UygulaBtn', 'UYGULA');
+UygulaBtn.Align = alBottom;
+UygulaBtn.Height = 50;
+UygulaBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#20a240');
+UygulaBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+UygulaBtn.clProSettings.FontSize = 18;
+UygulaBtn.SetclProSettings(UygulaBtn.clProSettings);
+AyarlarForm.AddNewEvent(UygulaBtn, tbeOnClick, 'UygulaBtnClick');
+
+
+
+
+  AyarlarForm.RUN;
+}

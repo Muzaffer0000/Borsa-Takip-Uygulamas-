@@ -1,0 +1,105 @@
+var
+  LoginForm: TclForm;
+  LoginPnl, FieldsPnl, BtnPnl: TclProPanel;
+  UserLabel, PassLabel, HeaderLabel: TclProLabel;
+  UserInput, PassInput: TclProEdit; 
+  LoginBtn, CancelBtn: TclProButton;
+  ErrorLabel: TclProLabel;
+
+
+
+
+
+//-- LOGIN FORM --\\
+{
+  LoginForm = TclForm.Create(Self);
+  LoginForm.SetFormBGImage('https://static3.depositphotos.com/1000635/120/i/450/depositphotos_1208368-stock-photo-white-paper-seamless-background.jpg');
+
+  LoginPnl = LoginForm.AddNewProPanel(LoginForm, 'LoginPnl');
+  LoginPnl.Align = alClient;
+  LoginPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#455a64');
+  LoginPnl.clProSettings.RoundWidth = 15;
+  LoginPnl.clProSettings.RoundHeight = 15;
+  LoginPnl.SetclProSettings(LoginPnl.clProSettings);
+  
+  
+  HeaderLabel = LoginForm.AddNewProLabel(LoginPnl, 'HeaderLabel', 'GİRİŞ YAP');
+  HeaderLabel.Align = alTop;
+  HeaderLabel.Height = 50;
+  HeaderLabel.clProSettings.FontSize = 22;
+  HeaderLabel.clProSettings.FontColor = clAlphaColor.clWhite;
+  HeaderLabel.SetclProSettings(HeaderLabel.clProSettings);
+  
+  FieldsPnl = LoginForm.AddNewProPanel(LoginPnl, 'FieldsPnl');
+  FieldsPnl.Align = alTop;
+  FieldsPnl.Height = 140;
+  FieldsPnl.Margins.Top = 10;
+  FieldsPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ffffff');
+  FieldsPnl.clProSettings.RoundWidth = 10;
+  FieldsPnl.clProSettings.RoundHeight = 10;
+  FieldsPnl.SetclProSettings(FieldsPnl.clProSettings);
+  
+     // Kullanıcı Adı \\
+  UserLabel = LoginForm.AddNewProLabel(FieldsPnl, 'UserLabel', 'Kullanıcı Adı');
+  UserLabel.Align = alTop;
+  UserLabel.Height = 25;
+  UserLabel.clProSettings.FontSize = 12;
+  UserLabel.SetclProSettings(UserLabel.clProSettings);
+  
+  UserInput = LoginForm.AddNewProEdit(FieldsPnl, 'UserInput','');
+  UserInput.Align = alTop;
+  UserInput.Height = 30;
+  UserInput.Margins.Bottom = 10;
+  
+  UserInput.SetclProSettings(UserInput.clProSettings);
+
+     // Şifre \\
+  PassLabel = LoginForm.AddNewProLabel(FieldsPnl, 'PassLabel', 'Şifre');
+  PassLabel.Align = alTop;
+  PassLabel.Height = 25;
+  PassLabel.clProSettings.FontSize = 12;
+  PassLabel.SetclProSettings(PassLabel.clProSettings);
+
+  PassInput = LoginForm.AddNewProEdit(FieldsPnl, 'PassInput','');
+  PassInput.Align = alTop;
+  PassInput.Height = 30;
+  
+  
+  PassInput.SetclProSettings(PassInput.clProSettings);
+  
+     // Hata etiketi \\
+  ErrorLabel = LoginForm.AddNewProLabel(FieldsPnl, 'ErrorLabel', '');
+  ErrorLabel.Align = alTop;
+  ErrorLabel.Height = 20;
+  ErrorLabel.clProSettings.FontSize = 11;
+  ErrorLabel.clProSettings.FontColor = clAlphaColor.clHexToColor('#f44336'); 
+  ErrorLabel.Visible = false;
+  ErrorLabel.SetclProSettings(ErrorLabel.clProSettings);
+
+      // Butonlar \\
+  BtnPnl = LoginForm.AddNewProPanel(LoginPnl, 'BtnPnl');
+  BtnPnl.Align = alTop;
+  BtnPnl.Height = 50;
+  BtnPnl.Margins.Top = 15;
+  BtnPnl.clProSettings.BackgroundColor = clAlphaColor.clWhite;
+  BtnPnl.SetclProSettings(BtnPnl.clProSettings);
+
+  LoginBtn = LoginForm.AddNewProButton(BtnPnl, 'LoginBtn', 'Giriş Yap');
+  LoginBtn.Align = alLeft;
+  LoginBtn.Width = 120;
+  LoginBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#20a240');
+  LoginBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+  LoginBtn.SetclProSettings(LoginBtn.clProSettings);
+  LoginForm.AddNewEvent(LoginBtn, tbeOnClick, 'LoginBtnClick');
+
+  CancelBtn = LoginForm.AddNewProButton(BtnPnl, 'CancelBtn', 'Temizle');
+  CancelBtn.Align = alRight;
+  CancelBtn.Width = 120;
+  CancelBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#9e9e9e');
+  CancelBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+  CancelBtn.SetclProSettings(CancelBtn.clProSettings);
+  LoginForm.AddNewEvent(CancelBtn, tbeOnClick, 'CancelBtnClick');
+  
+
+  LoginForm.RUN;
+}

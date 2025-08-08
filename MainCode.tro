@@ -1,0 +1,908 @@
+var
+  AnaForm: TclForm;
+  
+  MainPnl, NavPnl, ContentPnl,AltPnl,OrtaPnl,ButonKapsayiciPnl: TclProPanel;
+  
+  DovizBtn, AltinBtn, KriptoBtn, AyarlarBtn,LoginBtn: TclProButton;
+  
+  TitleLabel: TclProLabel;
+  
+  restManager: TClRest;
+  
+  //-- USD -- \\
+  USDPanel,USDLabel,USDStartLabel,USDEndLabel:TclProLabel;   
+  
+  //-- EUR -- \\
+  EURPanel,EURLabel,EURStartLabel,EUREndLabel:TclProLabel;
+   
+  //-- GBP -- \\
+  GBPPanel,GBPLabel,GBPStartLabel,GBPEndLabel:TclProLabel;
+  
+  //-- SEK -- \\
+  SEKPanel,SEKLabel,SEKStartLabel,SEKEndLabel:TclProLabel;
+  
+  //-- JPY -- \\
+  JPYPanel,JPYLabel,JPYStartLabel,JPYEndLabel:TclProLabel;
+  
+  //-- GRAM ALTIN -- \\
+  GramAltinPanel,GramAltinLabel,GramAltinStartLabel,GramAltinEndLabel:TclProLabel;
+  
+  //-- Çeyrek ALTIN -- \\
+  CeyrekAltinPanel,CeyrekAltinLabel,CeyrekAltinStartLabel,CeyrekAltinEndLabel:TclProLabel;
+  
+  //-- TAM ALTIN -- \\
+  TamAltinPanel,TamAltinLabel,TamAltinStartLabel,TamAltinEndLabel:TclProLabel;
+  
+  //-- CUMHURİYET ALTIN -- \\
+  CumhuriyetAltiniPanel,CumhuriyetAltiniLabel,CumhuriyetAltiniStartLabel,CumhuriyetAltiniEndLabel:TclProLabel;
+  
+  //-- BTC COİN -- \\
+  BitcoinPanel,BitcoinLabel,BitcoinStartLabel,BitcoinEndLabel:TclProLabel;
+  
+  //-- ETH COİN -- \\
+  EthereumPanel,EthereumLabel,EthereumStartLabel,EthereumEndLabel:TclProLabel;
+  
+  //-- XRP COİN -- \\
+  XRPPanel,XRPLabel,XRPStartLabel,XRPEndLabel:TclProLabel;
+  
+  //-- ADA COİN -- \\
+  ADAPanel,ADALabel,ADAStartLabel,ADAEndLabel:TclProLabel;
+  
+
+  usdAlis : Integer;
+  usdSatis : Integer;
+  
+  eurAlis : Integer;
+  eurSatis : Integer;
+  
+  gbpAlis : Integer;
+  gbpSatis : Integer;
+  
+  sekAlis : Integer;
+  sekSatis : Integer;
+  
+  jpyAlis : Integer;
+  jpySatis : Integer;
+  
+  gramAlis : Integer;
+  gramSatis : Integer;
+  
+  ceyrekAlis : Integer;
+  ceyrekSatis : Integer;
+  
+  tamAlis : Integer;
+  tamSatis : Integer;
+  
+  cumhuriyetAlis : Integer;
+  cumhuriyetSatis : Integer;
+  
+  bitcoinAlis : Integer;
+  bitcoinSatis : Integer;
+  
+  cardanoAlis : Integer;
+  cardanoSatis : Integer;
+  
+  ethereumAlis : Integer;
+  ethereumSatis : Integer;
+  
+  rippleAlis : Integer;
+  rippleSatis : Integer;
+
+
+//--- TIKLAMALAR ---//
+
+void DovizBtnClick
+{
+  TitleLabel.Text = 'DÖVİZ PANELİ';
+  TitleLabel.Visible = true;
+
+  USDPanel.Visible = true;
+  EURPanel.Visible = true;
+  GBPPanel.Visible = true;
+  SEKPanel.Visible = true;
+  JPYPanel.Visible = true;
+  GramAltinPanel.Visible = false;
+  CeyrekAltinPanel.Visible = false;
+  TamAltinPanel.Visible = false;
+  CumhuriyetAltiniPanel.Visible = false;
+  BitcoinPanel.Visible = false;
+  EthereumPanel.Visible = false;
+  XRPPanel.Visible = false;
+  ADAPanel.Visible = false;
+  
+
+}
+
+
+
+
+
+void AltinBtnClick 
+{
+  TitleLabel.Text = 'ALTIN PANELİ';
+  TitleLabel.Visible = true;
+  
+  USDPanel.Visible = false;
+  EURPanel.Visible = false;
+  GBPPanel.Visible = false;
+  SEKPanel.Visible = false;
+  JPYPanel.Visible = false;
+  GramAltinPanel.Visible = true;
+  CeyrekAltinPanel.Visible = true;
+  TamAltinPanel.Visible = true;
+  CumhuriyetAltiniPanel.Visible = true;
+  BitcoinPanel.Visible = false;
+  EthereumPanel.Visible = false;
+  XRPPanel.Visible = false;
+  ADAPanel.Visible = false;
+  
+}
+
+
+void KriptoBtnClick 
+{
+  TitleLabel.Text = 'KRİPTO PANELİ';
+  TitleLabel.Visible = true;
+  
+  USDPanel.Visible = false;
+  EURPanel.Visible = false;
+  GBPPanel.Visible = false;
+  SEKPanel.Visible = false;
+  JPYPanel.Visible = false;
+  GramAltinPanel.Visible = false;
+  CeyrekAltinPanel.Visible = false;
+  TamAltinPanel.Visible = false;
+  CumhuriyetAltiniPanel.Visible = false;
+  BitcoinPanel.Visible = true;
+  EthereumPanel.Visible = true;
+  XRPPanel.Visible = true;
+  ADAPanel.Visible = true;
+  
+}
+
+void  AyarlarBtnClick
+{
+
+
+  Clomosy.RunUnit('AyarlarForm.clu');
+  
+}
+
+void  LoginBtnClick
+{
+
+  Clomosy.RunUnit('LoginForm.clu');
+  
+}
+
+
+void dovizVerileriniCek;
+{
+  restManager.BaseURL = 'https://finans.truncgil.com/today.json';
+  restManager.Method = rmGet;
+  restManager.ContentType = 'application/json';
+
+  restManager.Execute;
+
+  usdAlis = Clomosy.CLParseJSON(restManager.Response, 'USD.Alış');
+  usdSatis = Clomosy.CLParseJSON(restManager.Response, 'USD.Satış');
+  
+  eurAlis = Clomosy.CLParseJSON(restManager.Response, 'EUR.Alış');
+  eurSatis = Clomosy.CLParseJSON(restManager.Response, 'EUR.Satış');
+  
+  gbpAlis = Clomosy.CLParseJSON(restManager.Response, 'GBP.Alış');
+  gbpSatis = Clomosy.CLParseJSON(restManager.Response, 'GBP.Satış');
+  
+  sekAlis = Clomosy.CLParseJSON(restManager.Response, 'SEK.Alış');
+  sekSatis = Clomosy.CLParseJSON(restManager.Response, 'SEK.Satış');
+  
+  jpyAlis = Clomosy.CLParseJSON(restManager.Response, 'JPY.Alış');
+  jpySatis = Clomosy.CLParseJSON(restManager.Response, 'JPY.Satış');
+  
+  gramAlis = Clomosy.CLParseJSON(restManager.Response, 'gram-altin.Alış');
+  gramSatis = Clomosy.CLParseJSON(restManager.Response, 'gram-altin.Satış');
+  
+  ceyrekAlis = Clomosy.CLParseJSON(restManager.Response, 'ceyrek-altin.Alış');
+  ceyrekSatis = Clomosy.CLParseJSON(restManager.Response, 'ceyrek-altin.Satış');
+  
+  tamAlis = Clomosy.CLParseJSON(restManager.Response, 'tam-altin.Alış');
+  tamSatis = Clomosy.CLParseJSON(restManager.Response, 'tam-altin.Satış');
+  
+  cumhuriyetAlis = Clomosy.CLParseJSON(restManager.Response, 'cumhuriyet-altini.Alış');
+  cumhuriyetSatis = Clomosy.CLParseJSON(restManager.Response, 'cumhuriyet-altini.Satış');
+}
+
+void coinCek;
+{
+  
+  restManager.Method = rmGet;
+  restManager.ContentType = 'application/json';
+  
+  restManager.BaseURL = 'https://api.binance.com/api/v3/ticker/bookTicker?symbol=BTCUSDT';
+  restManager.Execute;
+  
+  bitcoinAlis = Clomosy.CLParseJSON(restManager.Response, 'bidPrice');
+  bitcoinSatis = Clomosy.CLParseJSON(restManager.Response, 'askPrice');
+  
+  restManager.BaseURL = 'https://api.binance.com/api/v3/ticker/bookTicker?symbol=ETHUSDT';
+  restManager.Execute;
+  
+  ethereumAlis = Clomosy.CLParseJSON(restManager.Response, 'bidPrice');
+  ethereumSatis = Clomosy.CLParseJSON(restManager.Response, 'askPrice');
+  
+  restManager.BaseURL = 'https://api.binance.com/api/v3/ticker/bookTicker?symbol=XRPUSDT';
+  restManager.Execute;
+  
+  rippleAlis = Clomosy.CLParseJSON(restManager.Response, 'bidPrice');
+  rippleSatis = Clomosy.CLParseJSON(restManager.Response, 'askPrice');
+  
+  restManager.BaseURL = 'https://api.binance.com/api/v3/ticker/bookTicker?symbol=ADAUSDT';
+  restManager.Execute;
+  
+  cardanoAlis = Clomosy.CLParseJSON(restManager.Response, 'bidPrice');
+  cardanoSatis = Clomosy.CLParseJSON(restManager.Response, 'askPrice');
+  
+ }
+
+//--- ANA FORM --\\
+
+
+ {
+  restManager = TClRest.Create;
+  dovizVerileriniCek;
+  coinCek;
+  AnaForm = TclForm.Create(Self);
+  AnaForm.SetFormBGImage('https://static3.depositphotos.com/1000635/120/i/450/depositphotos_1208368-stock-photo-white-paper-seamless-background.jpg');
+  
+  
+  //--- ANA PANEL ---\\
+  
+  MainPnl = AnaForm.AddNewProPanel(AnaForm, 'MainPnl');
+  MainPnl.Align = alClient;
+  MainPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#60766f');
+  MainPnl.SetclProSettings(MainPnl.clProSettings);
+
+  //--- NAVİGASYON PANELİ ---\\
+    
+  NavPnl = AnaForm.AddNewProPanel(MainPnl, 'NavPnl');
+  NavPnl.Align = alTop;
+  NavPnl.Height = 60;
+  NavPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#455a64');
+  NavPnl.SetclProSettings(NavPnl.clProSettings);
+  
+  
+  
+  //--- DÖVİZ BUTONU ---\\
+  DovizBtn = AnaForm.AddNewProButton(NavPnl, 'DovizBtn', '💵');
+  DovizBtn.Align = alNone;
+  DovizBtn.Width = 80;
+  DovizBtn.Left = 70; 
+  DovizBtn.Top = 10;
+  DovizBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+  DovizBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#20a240');
+  AnaForm.AddNewEvent(DovizBtn, tbeOnClick, 'DovizBtnClick');
+
+  //--- ALTIN BUTONU ---\\  
+  AltinBtn = AnaForm.AddNewProButton(NavPnl, 'AltinBtn', '🧈');
+  AltinBtn.Align = alNone;  
+  AltinBtn.Width = 80;
+  AltinBtn.Left = DovizBtn.Left + DovizBtn.Width + 20; 
+  AltinBtn.Top = 10;
+  AltinBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+  AltinBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#20a240');
+  AnaForm.AddNewEvent(AltinBtn, tbeOnClick, 'AltinBtnClick');
+
+  //--- KRİPTO BUTONU ---\\
+  KriptoBtn = AnaForm.AddNewProButton(NavPnl, 'KriptoBtn', '₿');
+  KriptoBtn.Align = alNone;
+  KriptoBtn.Width = 80;
+  KriptoBtn.Left = AltinBtn.Left + AltinBtn.Width + 20; 
+  KriptoBtn.Top = 10;
+  KriptoBtn.clProSettings.FontColor = clAlphaColor.clWhite;
+  KriptoBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#20a240');
+  AnaForm.AddNewEvent(KriptoBtn, tbeOnClick, 'KriptoBtnClick');
+
+  
+
+  //--- CONTENT PANEL ---\\
+
+  ContentPnl = AnaForm.AddNewProPanel(MainPnl, 'ContentPnl');
+  ContentPnl.Align = alClient;
+  ContentPnl.Margins.Left = 15;
+  ContentPnl.Margins.Right = 15;
+  ContentPnl.Margins.Top = 10;
+  ContentPnl.Margins.Bottom = 15;
+  ContentPnl.clProSettings.BackgroundColor = clAlphaColor.clWhite;
+  ContentPnl.clProSettings.RoundHeight = 15;
+  ContentPnl.clProSettings.RoundWidth = 15;
+  ContentPnl.SetclProSettings(ContentPnl.clProSettings);
+  
+  
+  
+  //--- BAŞLIK ---\\
+  
+  TitleLabel = AnaForm.AddNewProLabel(ContentPnl, 'TitleLabel', 'HOŞGELDİNİZ');
+  TitleLabel.Align = alTop;
+  TitleLabel.Height = 40;
+  TitleLabel.clProSettings.FontSize = 18;
+  TitleLabel.clProSettings.FontColor = clAlphaColor.clHexToColor('#20a240');
+  TitleLabel.SetclProSettings(TitleLabel.clProSettings);
+  
+// ---Alt panel--- \\
+AltPnl = AnaForm.AddNewProPanel(MainPnl, 'AltPnl');
+AltPnl.Align = alBottom;
+AltPnl.Height = 60;
+AltPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#263238');
+AltPnl.SetclProSettings(AltPnl.clProSettings);
+
+//---Orta panel---\\
+OrtaPnl = AnaForm.AddNewProPanel(AltPnl, 'OrtaPnl');
+OrtaPnl.Align = alCenter;     
+OrtaPnl.Width = 200;          
+OrtaPnl.SetclProSettings(OrtaPnl.clProSettings);
+
+ButonKapsayiciPnl = AnaForm.AddNewProPanel(OrtaPnl, 'ButonKapsayiciPnl');
+ButonKapsayiciPnl.Align = alNone; 
+ButonKapsayiciPnl.Width = 220;   
+ButonKapsayiciPnl.Height = 60;   
+ButonKapsayiciPnl.Left = (OrtaPnl.Width - ButonKapsayiciPnl.Width) div 2;
+ButonKapsayiciPnl.Top = (OrtaPnl.Height - ButonKapsayiciPnl.Height) div 2; 
+ButonKapsayiciPnl.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#333333');
+ButonKapsayiciPnl.SetclProSettings(ButonKapsayiciPnl.clProSettings);
+
+//--- AYARLAR BUTONU ---\\
+
+AyarlarBtn = AnaForm.AddNewProButton(ButonKapsayiciPnl, 'AyarlarBtn', '⚙️');
+AyarlarBtn.Align = alLeft;
+AyarlarBtn.Width = 90;
+AyarlarBtn.clProSettings.FontSize = 30;
+AnaForm.AddNewEvent(AyarlarBtn, tbeOnClick, 'AyarlarBtnClick');
+
+
+//--- LOGİN BUTONU ---\\
+
+LoginBtn = Anaform.AddNewProButton(ButonKapsayiciPnl, 'LoginBtn', '👤');
+LoginBtn.Align = alRight;
+LoginBtn.Width = 120;
+LoginBtn.clProSettings.FontSize = 30;
+LoginBtn.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#01fafe'); 
+AnaForm.AddNewEvent(LoginBtn, tbeOnClick, 'LoginBtnClick');
+
+
+
+
+ 
+
+// --- DÖVİZ PANELİNE KUTUCUKLAR --- \\
+
+
+
+
+//-- DOLAR PANELİ -- \\
+
+USDPanel = AnaForm.AddNewProPanel(ContentPnl, 'USDPanel');
+USDPanel.Align = alTop;
+USDPanel.Height = 60;
+USDPanel.Margins.Bottom = 10;
+USDPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#e0f2f1');
+USDPanel.clProSettings.RoundWidth = 10;
+USDPanel.clProSettings.RoundHeight = 10;
+USDPanel.SetclProSettings(USDPanel.clProSettings);
+
+USDLabel = AnaForm.AddNewProLabel(USDPanel, 'USDLabel', 'USD / TL');
+USDLabel.Align = alTop;
+USDLabel.Height = 25;
+USDLabel.clProSettings.FontSize = 14;
+USDLabel.SetclProSettings(USDLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+USDStartLabel = AnaForm.AddNewProLabel(USDPanel, 'USDStartLabel', 'İlk: ' + usdAlis + '₺');
+USDStartLabel.Align = alNone;
+USDStartLabel.Top = USDLabel.Height + 10;
+USDStartLabel.Left = 10;
+USDStartLabel.Width = 80;
+USDStartLabel.clProSettings.FontSize = 12;
+USDStartLabel.SetclProSettings(USDStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+USDEndLabel = AnaForm.AddNewProLabel(USDPanel, 'USDEndLabel', 'Son: ' + usdSatis + '₺');
+USDEndLabel.Align = alNone;
+USDEndLabel.Top = USDStartLabel.Top;
+USDEndLabel.Left = USDStartLabel.Left + USDStartLabel.Width + 20;
+USDEndLabel.Width = 80;
+USDEndLabel.clProSettings.FontSize = 12;
+USDEndLabel.SetclProSettings(USDEndLabel.clProSettings);
+
+
+
+
+//-- EURO PANELİ -- \\
+
+EURPanel = AnaForm.AddNewProPanel(ContentPnl, 'EURPanel');
+EURPanel.Align = alTop;
+EURPanel.Height = 60;
+EURPanel.Margins.Bottom = 10;
+EURPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#e0f2f1');
+EURPanel.clProSettings.RoundWidth = 10;
+EURPanel.clProSettings.RoundHeight = 10;
+EURPanel.SetclProSettings(EURPanel.clProSettings);
+
+EURLabel = AnaForm.AddNewProLabel(EURPanel, 'EURLabel', 'EUR / TL');
+EURLabel.Align = alTop;
+EURLabel.Height = 25;
+EURLabel.clProSettings.FontSize = 14;
+EURLabel.SetclProSettings(EURLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+EURStartLabel = AnaForm.AddNewProLabel(EURPanel, 'EURStartLabel', 'İlk: ' + eurAlis + '₺');
+EURStartLabel.Align = alNone;
+EURStartLabel.Top = EURLabel.Height + 10;
+EURStartLabel.Left = 10;
+EURStartLabel.Width = 80;
+EURStartLabel.clProSettings.FontSize = 12;
+EURStartLabel.SetclProSettings(EURStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+EUREndLabel = AnaForm.AddNewProLabel(EURPanel, 'EUREndLabel', 'Son: ' + eurSatis + '₺');
+EUREndLabel.Align = alNone;
+EUREndLabel.Top = EURStartLabel.Top;
+EUREndLabel.Left = EURStartLabel.Left + EURStartLabel.Width + 20;
+EUREndLabel.Width = 80;
+EUREndLabel.clProSettings.FontSize = 12;
+EUREndLabel.SetclProSettings(EUREndLabel.clProSettings);
+
+
+
+
+//-- GBP PANELİ -- \\
+
+GBPPanel = AnaForm.AddNewProPanel(ContentPnl, 'GBPPanel');
+GBPPanel.Align = alTop;
+GBPPanel.Height = 60;
+GBPPanel.Margins.Bottom = 10;
+GBPPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#e0f2f1');
+GBPPanel.clProSettings.RoundWidth = 10;
+GBPPanel.clProSettings.RoundHeight = 10;
+GBPPanel.SetclProSettings(GBPPanel.clProSettings);
+
+GBPLabel = AnaForm.AddNewProLabel(GBPPanel, 'GBPLabel', 'İngiliz Sterlini');
+GBPLabel.Align = alTop;
+GBPLabel.Height = 25;
+GBPLabel.clProSettings.FontSize = 14;
+GBPLabel.SetclProSettings(GBPLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+GBPStartLabel = AnaForm.AddNewProLabel(GBPPanel, 'GBPStartLabel', 'İlk: ' + gbpAlis + '₺');
+GBPStartLabel.Align = alNone;
+GBPStartLabel.Top = GBPLabel.Height + 10;
+GBPStartLabel.Left = 10;
+GBPStartLabel.Width = 80;
+GBPStartLabel.clProSettings.FontSize = 12;
+GBPStartLabel.SetclProSettings(GBPStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+GBPEndLabel = AnaForm.AddNewProLabel(GBPPanel, 'GBPEndLabel', 'Son: ' + gbpSatis + '₺');
+GBPEndLabel.Align = alNone;
+GBPEndLabel.Top = GBPStartLabel.Top;
+GBPEndLabel.Left = GBPStartLabel.Left + GBPStartLabel.Width + 20;
+GBPEndLabel.Width = 80;
+GBPEndLabel.clProSettings.FontSize = 12;
+GBPEndLabel.SetclProSettings(GBPEndLabel.clProSettings);
+
+
+
+
+//-- SEK PANELİ -- \\
+
+SEKPanel = AnaForm.AddNewProPanel(ContentPnl, 'SEKPanel');
+SEKPanel.Align = alTop;
+SEKPanel.Height = 60;
+SEKPanel.Margins.Bottom = 10;
+SEKPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#e0f2f1');
+SEKPanel.clProSettings.RoundWidth = 10;
+SEKPanel.clProSettings.RoundHeight = 10;
+SEKPanel.SetclProSettings(SEKPanel.clProSettings);
+
+SEKLabel = AnaForm.AddNewProLabel(SEKPanel, 'SEKLabel', 'İsveç Frangı');
+SEKLabel.Align = alTop;
+SEKLabel.Height = 25;
+SEKLabel.clProSettings.FontSize = 14;
+SEKLabel.SetclProSettings(SEKLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+SEKStartLabel = AnaForm.AddNewProLabel(SEKPanel, 'SEKStartLabel', 'İlk: ' + sekAlis + '₺');
+SEKStartLabel.Align = alNone;
+SEKStartLabel.Top = SEKLabel.Height + 10;
+SEKStartLabel.Left = 10;
+SEKStartLabel.Width = 80;
+SEKStartLabel.clProSettings.FontSize = 12;
+SEKStartLabel.SetclProSettings(SEKStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+SEKEndLabel = AnaForm.AddNewProLabel(SEKPanel, 'SEKEndLabel', 'Son: ' + sekSatis + '₺');
+SEKEndLabel.Align = alNone;
+SEKEndLabel.Top = SEKStartLabel.Top;
+SEKEndLabel.Left = SEKStartLabel.Left + SEKStartLabel.Width + 20;
+SEKEndLabel.Width = 80;
+SEKEndLabel.clProSettings.FontSize = 12;
+SEKEndLabel.SetclProSettings(SEKEndLabel.clProSettings);
+
+
+
+
+//-- JPY PANELİ -- \\
+
+
+
+JPYPanel = AnaForm.AddNewProPanel(ContentPnl, 'JPYPanel');
+JPYPanel.Align = alTop;
+JPYPanel.Height = 60;
+JPYPanel.Margins.Bottom = 10;
+JPYPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#e0f2f1');
+JPYPanel.clProSettings.RoundWidth = 10;
+JPYPanel.clProSettings.RoundHeight = 10;
+JPYPanel.SetclProSettings(JPYPanel.clProSettings);
+
+JPYLabel = AnaForm.AddNewProLabel(JPYPanel, 'JPYLabel', 'Japon Yeni');
+JPYLabel.Align = alTop;
+JPYLabel.Height = 25;
+JPYLabel.clProSettings.FontSize = 14;
+JPYLabel.SetclProSettings(JPYLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+JPYStartLabel = AnaForm.AddNewProLabel(JPYPanel, 'JPYStartLabel', 'İlk: ' + jpyAlis + '₺');
+JPYStartLabel.Align = alNone;
+JPYStartLabel.Top = JPYLabel.Height + 10;
+JPYStartLabel.Left = 10;
+JPYStartLabel.Width = 80;
+JPYStartLabel.clProSettings.FontSize = 12;
+JPYStartLabel.SetclProSettings(JPYStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+JPYEndLabel = AnaForm.AddNewProLabel(JPYPanel, 'JPYEndLabel', 'Son: ' + jpySatis + '₺');
+JPYEndLabel.Align = alNone;
+JPYEndLabel.Top = JPYStartLabel.Top;
+JPYEndLabel.Left = JPYStartLabel.Left + JPYStartLabel.Width + 20;
+JPYEndLabel.Width = 80;
+JPYEndLabel.clProSettings.FontSize = 12;
+JPYEndLabel.SetclProSettings(JPYEndLabel.clProSettings);
+
+
+
+
+
+// --- ALTIN PANELİNE KUTUCUKLAR --- \\
+
+
+
+// Gram Altın Paneli
+GramAltinPanel = AnaForm.AddNewProPanel(ContentPnl, 'GramAltinPanel');
+GramAltinPanel.Align = alTop;
+GramAltinPanel.Height = 60;
+GramAltinPanel.Margins.Bottom = 10;
+GramAltinPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fff3e0');
+GramAltinPanel.clProSettings.RoundWidth = 10;
+GramAltinPanel.clProSettings.RoundHeight = 10;
+GramAltinPanel.SetclProSettings(GramAltinPanel.clProSettings);
+
+GramAltinLabel = AnaForm.AddNewProLabel(GramAltinPanel, 'GramAltinLabel', 'Gram Altın');
+GramAltinLabel.Align = alTop;
+GramAltinLabel.Height = 25;
+GramAltinLabel.clProSettings.FontSize = 14;
+GramAltinLabel.SetclProSettings(GramAltinLabel.clProSettings);
+
+//-- İLK DEĞİŞİM -- \\
+
+GramAltinStartLabel = AnaForm.AddNewProLabel(GramAltinPanel, 'GramAltinStartLabel', 'İlk: ' + gramAlis + '₺');
+GramAltinStartLabel.Align = alNone;
+GramAltinStartLabel.Top = GramAltinLabel.Height + 10;
+GramAltinStartLabel.Left = 10;
+GramAltinStartLabel.Width = 80;
+GramAltinStartLabel.clProSettings.FontSize = 12;
+GramAltinStartLabel.SetclProSettings(GramAltinStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM -- \\
+
+GramAltinEndLabel = AnaForm.AddNewProLabel(GramAltinPanel, 'GramAltinEndLabel', 'Son: ' + gramSatis + '₺');
+GramAltinEndLabel.Align = alNone;
+GramAltinEndLabel.Top = GramAltinStartLabel.Top;
+GramAltinEndLabel.Left = GramAltinStartLabel.Left + GramAltinStartLabel.Width + 20;
+GramAltinEndLabel.Width = 80;
+GramAltinEndLabel.clProSettings.FontSize = 12;
+GramAltinEndLabel.SetclProSettings(GramAltinEndLabel.clProSettings);
+
+
+
+//--- Çeyrek Altın Paneli---\\
+CeyrekAltinPanel = AnaForm.AddNewProPanel(ContentPnl, 'CeyrekAltinPanel');
+CeyrekAltinPanel.Align = alTop;
+CeyrekAltinPanel.Height = 60;
+CeyrekAltinPanel.Margins.Bottom = 10;
+CeyrekAltinPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fff3e0');
+CeyrekAltinPanel.clProSettings.RoundWidth = 10;
+CeyrekAltinPanel.clProSettings.RoundHeight = 10;
+CeyrekAltinPanel.SetclProSettings(CeyrekAltinPanel.clProSettings);
+
+CeyrekAltinLabel = AnaForm.AddNewProLabel(CeyrekAltinPanel, 'CeyrekAltinLabel', 'Çeyrek Altın');
+CeyrekAltinLabel.Align = alTop;
+CeyrekAltinLabel.Height = 25;
+CeyrekAltinLabel.clProSettings.FontSize = 14;
+CeyrekAltinLabel.SetclProSettings(CeyrekAltinLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+CeyrekAltinStartLabel = AnaForm.AddNewProLabel(CeyrekAltinPanel, 'CeyrekAltinStartLabel', 'İlk: ' + ceyrekAlis + '₺');
+CeyrekAltinStartLabel.Align = alNone;
+CeyrekAltinStartLabel.Top = CeyrekAltinLabel.Height + 10;
+CeyrekAltinStartLabel.Left = 10;
+CeyrekAltinStartLabel.Width = 80;
+CeyrekAltinStartLabel.clProSettings.FontSize = 12;
+CeyrekAltinStartLabel.SetclProSettings(CeyrekAltinStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+CeyrekAltinEndLabel = AnaForm.AddNewProLabel(CeyrekAltinPanel, 'CeyrekAltinEndLabel', 'Son: ' + ceyrekSatis + '₺');
+CeyrekAltinEndLabel.Align = alNone;
+CeyrekAltinEndLabel.Top = CeyrekAltinStartLabel.Top;
+CeyrekAltinEndLabel.Left = CeyrekAltinStartLabel.Left + CeyrekAltinStartLabel.Width + 20;
+CeyrekAltinEndLabel.Width = 80;
+CeyrekAltinEndLabel.clProSettings.FontSize = 12;
+CeyrekAltinEndLabel.SetclProSettings(CeyrekAltinEndLabel.clProSettings);
+
+
+
+
+//--- Tam Altın Paneli---\\
+TamAltinPanel = AnaForm.AddNewProPanel(ContentPnl, 'TamAltinPanel');
+TamAltinPanel.Align = alTop;
+TamAltinPanel.Height = 60;
+TamAltinPanel.Margins.Bottom = 10;
+TamAltinPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fff3e0');
+TamAltinPanel.clProSettings.RoundWidth = 10;
+TamAltinPanel.clProSettings.RoundHeight = 10;
+TamAltinPanel.SetclProSettings(TamAltinPanel.clProSettings);
+
+TamAltinLabel = AnaForm.AddNewProLabel(TamAltinPanel, 'TamAltinLabel', 'Tam Altın');
+TamAltinLabel.Align = alTop;
+TamAltinLabel.Height = 25;
+TamAltinLabel.clProSettings.FontSize = 14;
+TamAltinLabel.SetclProSettings(TamAltinLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+TamAltinStartLabel = AnaForm.AddNewProLabel(TamAltinPanel, 'TamAltinStartLabel', 'İlk: ' + tamAlis + '₺');
+TamAltinStartLabel.Align = alNone;
+TamAltinStartLabel.Top = TamAltinLabel.Height + 10;
+TamAltinStartLabel.Left = 10;
+TamAltinStartLabel.Width = 80;
+TamAltinStartLabel.clProSettings.FontSize = 12;
+TamAltinStartLabel.SetclProSettings(TamAltinStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+TamAltinEndLabel = AnaForm.AddNewProLabel(TamAltinPanel, 'TamAltinEndLabel', 'Son: ' + tamSatis + '₺');
+TamAltinEndLabel.Align = alNone;
+TamAltinEndLabel.Top = TamAltinStartLabel.Top;
+TamAltinEndLabel.Left = TamAltinStartLabel.Left + TamAltinStartLabel.Width + 20;
+TamAltinEndLabel.Width = 80;
+TamAltinEndLabel.clProSettings.FontSize = 12;
+TamAltinEndLabel.SetclProSettings(TamAltinEndLabel.clProSettings);
+
+
+
+
+// ---Cumhuriyet Altını Paneli---\\
+CumhuriyetAltiniPanel = AnaForm.AddNewProPanel(ContentPnl, 'CumhuriyetAltiniPanel');
+CumhuriyetAltiniPanel.Align = alTop;
+CumhuriyetAltiniPanel.Height = 60;
+CumhuriyetAltiniPanel.Margins.Bottom = 10;
+CumhuriyetAltiniPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fff3e0');
+CumhuriyetAltiniPanel.clProSettings.RoundWidth = 10;
+CumhuriyetAltiniPanel.clProSettings.RoundHeight = 10;
+CumhuriyetAltiniPanel.SetclProSettings(CumhuriyetAltiniPanel.clProSettings);
+
+CumhuriyetAltiniLabel = AnaForm.AddNewProLabel(CumhuriyetAltiniPanel, 'CumhuriyetAltiniLabel', 'Cumhuriyet Altını');
+CumhuriyetAltiniLabel.Align = alTop;
+CumhuriyetAltiniLabel.Height = 25;
+CumhuriyetAltiniLabel.clProSettings.FontSize = 14;
+CumhuriyetAltiniLabel.SetclProSettings(CumhuriyetAltiniLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+CumhuriyetAltiniStartLabel = AnaForm.AddNewProLabel(CumhuriyetAltiniPanel, 'CumhuriyetAltiniStartLabel', 'İlk: ' + cumhuriyetAlis + '₺');
+CumhuriyetAltiniStartLabel.Align = alNone;
+CumhuriyetAltiniStartLabel.Top = CumhuriyetAltiniLabel.Height + 10;
+CumhuriyetAltiniStartLabel.Left = 10;
+CumhuriyetAltiniStartLabel.Width = 80;
+CumhuriyetAltiniStartLabel.clProSettings.FontSize = 12;
+CumhuriyetAltiniStartLabel.SetclProSettings(CumhuriyetAltiniStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+CumhuriyetAltiniEndLabel = AnaForm.AddNewProLabel(CumhuriyetAltiniPanel, 'CumhuriyetAltiniEndLabel', 'Son: ' + cumhuriyetSatis + '₺');
+CumhuriyetAltiniEndLabel.Align = alNone;
+CumhuriyetAltiniEndLabel.Top = CumhuriyetAltiniStartLabel.Top;
+CumhuriyetAltiniEndLabel.Left = CumhuriyetAltiniStartLabel.Left + CumhuriyetAltiniStartLabel.Width + 20;
+CumhuriyetAltiniEndLabel.Width = 80;
+CumhuriyetAltiniEndLabel.clProSettings.FontSize = 12;
+CumhuriyetAltiniEndLabel.SetclProSettings(CumhuriyetAltiniEndLabel.clProSettings);
+
+
+
+
+
+
+
+
+
+
+// --- BİTCOİN PANELİNE KUTUCUKLAR --- \\
+
+
+//--- Bitcoin Paneli---\\
+BitcoinPanel = AnaForm.AddNewProPanel(ContentPnl, 'BitcoinPanel');
+BitcoinPanel.Align = alTop;
+BitcoinPanel.Height = 60;
+BitcoinPanel.Margins.Bottom = 10;
+BitcoinPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ede7f6');
+BitcoinPanel.clProSettings.RoundWidth = 10;
+BitcoinPanel.clProSettings.RoundHeight = 10;
+BitcoinPanel.SetclProSettings(BitcoinPanel.clProSettings);
+
+BitcoinLabel = AnaForm.AddNewProLabel(BitcoinPanel, 'BitcoinLabel', 'Bitcoin (BTC)');
+BitcoinLabel.Align = alTop;
+BitcoinLabel.Height = 25;
+BitcoinLabel.clProSettings.FontSize = 14;
+BitcoinLabel.SetclProSettings(BitcoinLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+BitcoinStartLabel = AnaForm.AddNewProLabel(BitcoinPanel, 'BitcoinStartLabel', 'İlk: ' + bitcoinAlis + '$');
+BitcoinStartLabel.Align = alNone;
+BitcoinStartLabel.Top = BitcoinLabel.Height + 10;
+BitcoinStartLabel.Left = 10;
+BitcoinStartLabel.Width = 80;
+BitcoinStartLabel.clProSettings.FontSize = 12;
+BitcoinStartLabel.SetclProSettings(BitcoinStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+BitcoinEndLabel = AnaForm.AddNewProLabel(BitcoinPanel, 'BitcoinEndLabel', 'Son: ' + bitcoinSatis + '$');
+BitcoinEndLabel.Align = alNone;
+BitcoinEndLabel.Top = BitcoinStartLabel.Top;
+BitcoinEndLabel.Left = BitcoinStartLabel.Left + BitcoinStartLabel.Width + 20;
+BitcoinEndLabel.Width = 80;
+BitcoinEndLabel.clProSettings.FontSize = 12;
+BitcoinEndLabel.SetclProSettings(BitcoinEndLabel.clProSettings);
+
+
+
+
+// ---Ethereum Paneli---\\
+EthereumPanel = AnaForm.AddNewProPanel(ContentPnl, 'EthereumPanel');
+EthereumPanel.Align = alTop;
+EthereumPanel.Height = 60;
+EthereumPanel.Margins.Bottom = 10;
+EthereumPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ede7f6');
+EthereumPanel.clProSettings.RoundWidth = 10;
+EthereumPanel.clProSettings.RoundHeight = 10;
+EthereumPanel.SetclProSettings(EthereumPanel.clProSettings);
+
+EthereumLabel = AnaForm.AddNewProLabel(EthereumPanel, 'EthereumLabel', 'Ethereum (ETH)');
+EthereumLabel.Align = alTop;
+EthereumLabel.Height = 25;
+EthereumLabel.clProSettings.FontSize = 14;
+EthereumLabel.SetclProSettings(EthereumLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+EthereumStartLabel = AnaForm.AddNewProLabel(EthereumPanel, 'EthereumStartLabel', 'İlk: ' + ethereumAlis + '$');
+EthereumStartLabel.Align = alNone;
+EthereumStartLabel.Top = EthereumLabel.Height + 10;
+EthereumStartLabel.Left = 10;
+EthereumStartLabel.Width = 80;
+EthereumStartLabel.clProSettings.FontSize = 12;
+EthereumStartLabel.SetclProSettings(EthereumStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+EthereumEndLabel = AnaForm.AddNewProLabel(EthereumPanel, 'EthereumEndLabel', 'Son: ' + ethereumSatis + '$');
+EthereumEndLabel.Align = alNone;
+EthereumEndLabel.Top = EthereumStartLabel.Top;
+EthereumEndLabel.Left = EthereumStartLabel.Left + EthereumStartLabel.Width + 20;
+EthereumEndLabel.Width = 80;
+EthereumEndLabel.clProSettings.FontSize = 12;
+EthereumEndLabel.SetclProSettings(EthereumEndLabel.clProSettings);
+
+
+
+
+//--- XRP Paneli---\\
+XRPPanel = AnaForm.AddNewProPanel(ContentPnl, 'XRPPanel');
+XRPPanel.Align = alTop;
+XRPPanel.Height = 60;
+XRPPanel.Margins.Bottom = 10;
+XRPPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ede7f6');
+XRPPanel.clProSettings.RoundWidth = 10;
+XRPPanel.clProSettings.RoundHeight = 10;
+XRPPanel.SetclProSettings(XRPPanel.clProSettings);
+
+XRPLabel = AnaForm.AddNewProLabel(XRPPanel, 'XRPLabel', 'XRP');
+XRPLabel.Align = alTop;
+XRPLabel.Height = 25;
+XRPLabel.clProSettings.FontSize = 14;
+XRPLabel.SetclProSettings(XRPLabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+XRPStartLabel = AnaForm.AddNewProLabel(XRPPanel, 'XRPStartLabel', 'İlk: ' + rippleAlis + '$');
+XRPStartLabel.Align = alNone;
+XRPStartLabel.Top = XRPLabel.Height + 10;
+XRPStartLabel.Left = 10;
+XRPStartLabel.Width = 80;
+XRPStartLabel.clProSettings.FontSize = 12;
+XRPStartLabel.SetclProSettings(XRPStartLabel.clProSettings);
+
+//--- SON DEĞİŞİM --- \\
+
+XRPEndLabel = AnaForm.AddNewProLabel(XRPPanel, 'XRPEndLabel', 'Son: ' + rippleSatis + '$');
+XRPEndLabel.Align = alNone;
+XRPEndLabel.Top = XRPStartLabel.Top;
+XRPEndLabel.Left = XRPStartLabel.Left + XRPStartLabel.Width + 20;
+XRPEndLabel.Width = 80;
+XRPEndLabel.clProSettings.FontSize = 12;
+XRPEndLabel.SetclProSettings(XRPEndLabel.clProSettings);
+
+
+
+
+//--- ADA Paneli---\\
+ADAPanel = AnaForm.AddNewProPanel(ContentPnl, 'ADAPanel');
+ADAPanel.Align = alTop;
+ADAPanel.Height = 60;
+ADAPanel.Margins.Bottom = 10;
+ADAPanel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ede7f6');
+ADAPanel.clProSettings.RoundWidth = 10;
+ADAPanel.clProSettings.RoundHeight = 10;
+ADAPanel.SetclProSettings(ADAPanel.clProSettings);
+
+ADALabel = AnaForm.AddNewProLabel(ADAPanel, 'ADALabel', 'Cardano (ADA)');
+ADALabel.Align = alTop;
+ADALabel.Height = 25;
+ADALabel.clProSettings.FontSize = 14;
+ADALabel.SetclProSettings(ADALabel.clProSettings);
+
+//--- İLK DEĞİŞİM --- \\
+
+ADAStartLabel = AnaForm.AddNewProLabel(ADAPanel, 'ADAStartLabel', 'İlk: ' + cardanoAlis + '$');
+ADAStartLabel.Align = alNone;
+ADAStartLabel.Top = ADALabel.Height + 10;
+ADAStartLabel.Left = 10;
+ADAStartLabel.Width = 80;
+ADAStartLabel.clProSettings.FontSize = 12;
+ADAStartLabel.SetclProSettings(ADAStartLabel.clProSettings);
+
+//-- SON DEĞİŞİM --- \\
+
+ADAEndLabel = AnaForm.AddNewProLabel(ADAPanel, 'ADAEndLabel', 'Son: ' + cardanoSatis + '$');
+ADAEndLabel.Align = alNone;
+ADAEndLabel.Top = ADAStartLabel.Top;
+ADAEndLabel.Left = ADAStartLabel.Left + ADAStartLabel.Width + 20;
+ADAEndLabel.Width = 80;
+ADAEndLabel.clProSettings.FontSize = 12;
+ADAEndLabel.SetclProSettings(ADAEndLabel.clProSettings);
+
+
+  
+AnaForm.RUN;
+}
