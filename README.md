@@ -1,2 +1,2 @@
 # Borsa-Takip-Uygulamasi-
-Clomosy dili ile yapılmış finans takip uygulaması
+Clomosy üzerinden TRObject dili ile yapılmış finans takip uygulaması
